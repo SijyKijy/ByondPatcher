@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace ByondPather
+namespace ByondPatcher
 {
     public static class Program
     {
@@ -53,18 +53,18 @@ namespace ByondPather
         {
             byte[] incArray = File.ReadAllBytes(path);
             byte[] resArray = new byte[incArray.Length];
-            
+
             incArray.CopyTo(resArray, 0);
 
             int i = 0;
-            PathHelper.PatchTripletBytes(resArray, 15, 69, 249, 137, 207, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 72, 144, 144, ref i);
-            PathHelper.PatchFiveBytes(resArray, 15, 132, 68, 2, 0, 144, 144, 144, 144, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 74, 144, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 63, 144, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            PathHelper.PatchPairBytes(resArray, 116, 79, 144, 144, ref i);
+            PatchHelper.PatchTripletBytes(resArray, 15, 69, 249, 137, 207, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 72, 144, 144, ref i);
+            PatchHelper.PatchFiveBytes(resArray, 15, 132, 68, 2, 0, 144, 144, 144, 144, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 74, 144, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 63, 144, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
+            PatchHelper.PatchPairBytes(resArray, 116, 79, 144, 144, ref i);
 
             int num = 0;
             for (int j = 0; j < incArray.Length; j++)
@@ -92,7 +92,7 @@ namespace ByondPather
             incArray.CopyTo(resArray, 0);
 
             int i = 0;
-            PathHelper.PatchFiveBytes(resArray, 191, 30, 0, 0, 0, 191, 0, 0, 0, 0, ref i);
+            PatchHelper.PatchFiveBytes(resArray, 191, 30, 0, 0, 0, 191, 0, 0, 0, 0, ref i);
 
             int num = 0;
             for (int j = 0; j < incArray.Length; j++)

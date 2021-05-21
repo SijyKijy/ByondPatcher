@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 
-namespace ByondPather
+namespace ByondPatcher
 {
-    public static class PathHelper
+    public static class PatchHelper
     {
         public static void PatchPairBytes(byte[] b, byte A0, byte A1, byte B0, byte B1, ref int i)
         {

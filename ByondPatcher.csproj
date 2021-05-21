@@ -6,7 +6,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <RepositoryUrl>https://github.com/SijyKijy/ByondPather</RepositoryUrl>
+    <RepositoryUrl>https://github.com/SijyKijy/ByondPatcher</RepositoryUrl>
     <Authors>SijyKijy</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>© 2021 SijyKijy</Copyright>
