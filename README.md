@@ -1,4 +1,4 @@
-# ByondPather
+# ByondPatcher
 BYOND ads patcher for 512, 513, 514
 
 # Usage Guide
