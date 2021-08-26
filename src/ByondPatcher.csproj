@@ -8,15 +8,9 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <RepositoryUrl>https://github.com/SijyKijy/ByondPatcher</RepositoryUrl>
     <Authors>SijyKijy</Authors>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>© 2021 SijyKijy</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/SijyKijy/ByondPatcher/master/LICENSE</PackageLicenseUrl>
+    <PackageVersion>1.1.0</PackageVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
 </Project>
