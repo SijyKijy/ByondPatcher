@@ -2,7 +2,7 @@
 
 namespace ByondPatcher
 {
-    public static class PatchHelper
+    public static class Helper
     {
         public static void PatchPairBytes(byte[] b, byte A0, byte A1, byte B0, byte B1, ref int i)
         {
