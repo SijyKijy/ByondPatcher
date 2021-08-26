@@ -30,9 +30,9 @@ namespace ByondPatcher
             }
 
             if (fileInfo.ProductBuildPart <= 512)
-                PathLE512(path);
+                PatchLE512(path);
             else
-                PathGT512(path);
+                PatchGT512(path);
         }
 
         private static bool IsValidFile(string path, out FileVersionInfo fileInfo)
@@ -49,7 +49,7 @@ namespace ByondPatcher
         ///     Patch a version less than or equal to 512
         /// </summary>
         /// <param name="path">File path</param>
-        private static void PathLE512(string path)
+        private static void PatchLE512(string path)
         {
             byte[] incArray = File.ReadAllBytes(path);
             byte[] resArray = new byte[incArray.Length];
@@ -57,14 +57,14 @@ namespace ByondPatcher
             incArray.CopyTo(resArray, 0);
 
             int i = 0;
-            PatchHelper.PatchTripletBytes(resArray, 15, 69, 249, 137, 207, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 72, 144, 144, ref i);
-            PatchHelper.PatchFiveBytes(resArray, 15, 132, 68, 2, 0, 144, 144, 144, 144, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 74, 144, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 63, 144, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            PatchHelper.PatchPairBytes(resArray, 116, 79, 144, 144, ref i);
+            Helper.PatchTripletBytes(resArray, 15, 69, 249, 137, 207, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 72, 144, 144, ref i);
+            Helper.PatchFiveBytes(resArray, 15, 132, 68, 2, 0, 144, 144, 144, 144, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 74, 144, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 63, 144, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
+            Helper.PatchPairBytes(resArray, 116, 79, 144, 144, ref i);
 
             int num = 0;
             for (int j = 0; j < incArray.Length; j++)
@@ -76,7 +76,7 @@ namespace ByondPatcher
             Console.WriteLine("Bytes changed = " + num);
             File.WriteAllBytes(path, resArray);
 
-            Console.WriteLine("Pathed. Press any key to close this window...");
+            Console.WriteLine("Patched. Press any key to close this window...");
             Console.ReadLine();
         }
 
@@ -84,7 +84,7 @@ namespace ByondPatcher
         ///     Patch a version greater than 512
         /// </summary>
         /// <param name="path">File path</param>
-        private static void PathGT512(string path)
+        private static void PatchGT512(string path)
         {
             byte[] incArray = File.ReadAllBytes(path);
             byte[] resArray = new byte[incArray.Length];
@@ -92,7 +92,7 @@ namespace ByondPatcher
             incArray.CopyTo(resArray, 0);
 
             int i = 0;
-            PatchHelper.PatchFiveBytes(resArray, 191, 30, 0, 0, 0, 191, 0, 0, 0, 0, ref i);
+            Helper.PatchFiveBytes(resArray, 191, 30, 0, 0, 0, 191, 0, 0, 0, 0, ref i);
 
             int num = 0;
             for (int j = 0; j < incArray.Length; j++)
@@ -104,7 +104,7 @@ namespace ByondPatcher
             Console.WriteLine("Bytes changed = " + num);
             File.WriteAllBytes(path, resArray);
 
-            Console.WriteLine("Pathed. Press any key to close this window...");
+            Console.WriteLine("Patched. Press any key to close this window...");
             Console.ReadLine();
         }
     }
