@@ -51,33 +51,19 @@ namespace ByondPatcher
         /// <param name="path">File path</param>
         private static void PatchLE512(string path)
         {
-            byte[] incArray = File.ReadAllBytes(path);
-            byte[] resArray = new byte[incArray.Length];
-
-            incArray.CopyTo(resArray, 0);
-
-            int i = 0;
-            Helper.PatchTripletBytes(resArray, 15, 69, 249, 137, 207, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 72, 144, 144, ref i);
-            Helper.PatchFiveBytes(resArray, 15, 132, 68, 2, 0, 144, 144, 144, 144, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 74, 144, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 63, 144, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 14, 144, 144, ref i);
-            Helper.PatchPairBytes(resArray, 116, 79, 144, 144, ref i);
-
-            int num = 0;
-            for (int j = 0; j < incArray.Length; j++)
+            (byte[] pattern, byte[] patch)[] pathPair =
             {
-                if (incArray[j] != resArray[j])
-                    num++;
-            }
+                new(new byte[] { 15, 69, 249 }, new byte[] { 137, 207, 144 }),
+                new(new byte[] { 116, 72 }, new byte[] { 144, 144 }),
+                new(new byte[] { 15, 132, 68, 2, 0 }, new byte[] { 144, 144, 144, 144, 144 }),
+                new(new byte[] { 116, 74 }, new byte[] { 144, 144 }),
+                new(new byte[] { 116, 63 }, new byte[] { 144, 144 }),
+                new(new byte[] { 116, 14 }, new byte[] { 144, 144 }),
+                new(new byte[] { 116, 14 }, new byte[] { 144, 144 }),
+                new(new byte[] { 116, 79 }, new byte[] { 144, 144 }),
+            };
 
-            Console.WriteLine("Bytes changed = " + num);
-            File.WriteAllBytes(path, resArray);
-
-            Console.WriteLine("Patched. Press any key to close this window...");
-            Console.ReadLine();
+            Helper.PathBytes(path, pathPair);
         }
 
         /// <summary>
@@ -86,26 +72,12 @@ namespace ByondPatcher
         /// <param name="path">File path</param>
         private static void PatchGT512(string path)
         {
-            byte[] incArray = File.ReadAllBytes(path);
-            byte[] resArray = new byte[incArray.Length];
-
-            incArray.CopyTo(resArray, 0);
-
-            int i = 0;
-            Helper.PatchFiveBytes(resArray, 191, 30, 0, 0, 0, 191, 0, 0, 0, 0, ref i);
-
-            int num = 0;
-            for (int j = 0; j < incArray.Length; j++)
+            (byte[] pattern, byte[] patch)[] pathPair =
             {
-                if (incArray[j] != resArray[j])
-                    num++;
-            }
+                new (new byte[] { 191, 30, 0, 0, 0 }, new byte[] { 191, 0, 0, 0, 0 })
+            };
 
-            Console.WriteLine("Bytes changed = " + num);
-            File.WriteAllBytes(path, resArray);
-
-            Console.WriteLine("Patched. Press any key to close this window...");
-            Console.ReadLine();
+            Helper.PathBytes(path, pathPair);
         }
     }
 }

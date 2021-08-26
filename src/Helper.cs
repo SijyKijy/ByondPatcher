@@ -1,59 +1,56 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace ByondPatcher
 {
     public static class Helper
     {
-        public static void PatchPairBytes(byte[] b, byte A0, byte A1, byte B0, byte B1, ref int i)
+        public static void PathBytes(string path, (byte[] pattern, byte[] patch)[] pathPair)
         {
-            while (i < b.Length)
-            {
-                if (b[i] == A0 && b[i + 1] == A1)
-                {
-                    Debug.WriteLine($"[INFO] Pattern {A0}{A1} Found at {i}, patching with {B0}{B1}");
+            byte[] source = File.ReadAllBytes(path);
 
-                    b[i] = B0;
-                    b[i + 1] = B1;
-                    break;
-                }
-                i++;
-            }
+            int changedBytes = 0;
+            int position = 0;
+
+            for (int i = 0; i < pathPair.Length; i++)
+                changedBytes += PathBytes(source, pathPair[i].pattern, pathPair[i].patch, ref position);
+
+            Console.WriteLine("Bytes changed = " + changedBytes);
+            File.WriteAllBytes(path, source);
+
+            Console.WriteLine("Patched. Press any key to close this window...");
+            Console.ReadLine();
         }
 
-        public static void PatchTripletBytes(byte[] b, byte A0, byte A1, byte A2, byte B0, byte B1, byte B2, ref int i)
+        public static int PathBytes(Span<byte> source, ReadOnlySpan<byte> pattern, ReadOnlySpan<byte> patch, ref int position)
         {
-            while (i < b.Length)
-            {
-                if (b[i] == A0 && b[i + 1] == A1 && b[i + 2] == A2)
-                {
-                    Debug.WriteLine($"[INFO] Pattern {A0}{A1}{A2} Found at {i}, patching with {B0}{B1}{B2}");
+            int changedBytes = 0;
 
-                    b[i] = B0;
-                    b[i + 1] = B1;
-                    b[i + 2] = B2;
+            while (position < source.Length)
+            {
+                if (IsPatternMatch(source, pattern, position))
+                {
+                    Debug.WriteLine($"[INFO] Pattern [{string.Join(';', pattern.ToArray())}] Found at {position}, patching with [{string.Join(';', patch.ToArray())}]");
+
+                    for (int i = 0; i < patch.Length; i++)
+                        source[position + i] = patch[i];
+
+                    changedBytes++;
                     break;
                 }
-                i++;
+                position++;
             }
+
+            return changedBytes;
         }
 
-        public static void PatchFiveBytes(byte[] b, byte A0, byte A1, byte A2, byte A3, byte A4, byte B0, byte B1, byte B2, byte B3, byte B4, ref int i)
+        private static bool IsPatternMatch(ReadOnlySpan<byte> source, ReadOnlySpan<byte> pattern, int position)
         {
-            while (i < b.Length)
-            {
-                if (b[i] == A0 && b[i + 1] == A1 && b[i + 2] == A2 && b[i + 3] == A3 && b[i + 4] == A4)
-                {
-                    Debug.WriteLine($"[INFO] Pattern {A0}{A1}{A2}{A4} Found at {i}, patching with {B0}{B1}{B2}{B4}");
-
-                    b[i] = B0;
-                    b[i + 1] = B1;
-                    b[i + 2] = B2;
-                    b[i + 3] = B3;
-                    b[i + 4] = B4;
-                    break;
-                }
-                i++;
-            }
+            for (int i = 0; i < pattern.Length; i++)
+                if (source[position + i] != pattern[i])
+                    return false;
+            return true;
         }
     }
 }
