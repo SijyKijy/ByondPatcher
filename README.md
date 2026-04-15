@@ -1,5 +1,9 @@
 # ByondPatcher
-BYOND ads patcher for 512, 513, 514
+BYOND ads patcher for:
+* 512
+* 513
+* 514
+* 516 (tested on 516.1680)
 
 # Usage Guide
 1. `dotnet build -c Release`
