@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Get version from csproj
+      id: version
+      shell: pwsh
+      run: |
+        [xml]$csproj = Get-Content ./src/ByondPatcher.csproj
+        $ver = $csproj.Project.PropertyGroup.PackageVersion
+        echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+
+    - name: Publish
+      run: dotnet publish ./src -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish
+
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ steps.version.outputs.VERSION }}
+        name: v${{ steps.version.outputs.VERSION }}
+        files: ./publish/ByondPatcher.exe
+        generate_release_notes: true
